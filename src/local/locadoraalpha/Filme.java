@@ -12,10 +12,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 /**
  *
  * @author Angelo2
@@ -40,7 +40,8 @@ public final class Filme {
         setLancamento(lancamento);
         setLocado(locado);
     }
-    public Filme(int codigo,String nome, String genero, int duracao, String tipo, boolean lancamento,
+
+    public Filme(int codigo, String nome, String genero, int duracao, String tipo, boolean lancamento,
             boolean locado) {
         setCodigo(codigo);
         setNome(nome);
@@ -89,10 +90,9 @@ public final class Filme {
         Random c = new Random();
         this.codigo = c.nextInt(1000);
     }
-    
-    
+
     public void setCodigo(int codigo) {
-        this.codigo = (codigo>0? codigo:0);
+        this.codigo = (codigo > 0 ? codigo : 0);
     }
 
     public void setGenero(String genero) {
@@ -122,6 +122,8 @@ public final class Filme {
     public void setLocado(boolean locado) {
         this.locado = locado;
     }
+    
+    
 
     @Override
     public String toString() {
@@ -131,7 +133,7 @@ public final class Filme {
     /**
      * @throws IOException
      */
-    public void salvar() throws IOException {
+    public void salvarTxt() throws IOException {
 
         File f = new File("locadora.txt");
         f.createNewFile();
@@ -146,6 +148,32 @@ public final class Filme {
         bw.close();
 
     }
+
+    public void salvarXml() throws IOException {
+        File f = new File("filme"+codigo+".xml");
+        f.createNewFile();
+        FileWriter fw = new FileWriter(f, true);
+//        FileReader fr = new FileReader()
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write("<?xml version='1.0' encoding='UTF-8'?>");
+        bw.write("<filme>");
+        bw.write("<codigo>" + codigo + "</codigo>");
+        bw.write("<genero>" + genero + "</genero>");
+        bw.write("<nome>" + nome + "</nome>");
+        bw.write("<duracao>" + duracao + "</duracao>");
+        bw.write("<tipo>" + tipo + "</tipo>");
+        bw.write("<lancamento>" + lancamento + "</lancamento>");
+        bw.write("<locado>" + locado + "</locado>");
+        bw.write("</filme>");
+
+        bw.newLine();
+        bw.flush();
+        fw.close();
+        bw.close();
+
+    }
+    
+  
 
     public static Filme[] buscarTodos() throws FileNotFoundException, IOException {
         Filme[] filmes = new Filme[100];
@@ -163,7 +191,7 @@ public final class Filme {
             String tipo = valores[4];
             boolean lancamento = Boolean.parseBoolean(valores[5]);
             boolean locado = Boolean.parseBoolean(valores[6]);
-            Filme filme = new Filme(codigo,nome, genero, duracao, tipo, lancamento, locado);
+            Filme filme = new Filme(codigo, nome, genero, duracao, tipo, lancamento, locado);
             filmes[cont] = filme;
             cont++;
 
