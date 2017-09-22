@@ -1,4 +1,3 @@
-
 package local.locadoraalpha;
 
 import java.io.FileNotFoundException;
@@ -7,10 +6,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import local.utilidade.Teclado;
 
-
-
 public class Locadora {
 
+    /*Instancia da Classe Filme*/
     private Filme filme;
 
     public void menu() {
@@ -21,7 +19,10 @@ public class Locadora {
                 System.out.println("+--------------------------------+");
                 System.out.println("1. Inserir Filme");
                 System.out.println("2. Listar Filmes");
-                System.out.println("3. Sair");
+                System.out.println("3. Exportar para TXT"); 
+                System.out.println("4. Exportar para XML"); //Opção para exportar o filme para XML
+
+                System.out.println("5. Sair");
                 int escolha = Teclado.leIntTerminal("Escolha uma opção: ");
                 switch (escolha) {
                     case 1:
@@ -31,16 +32,24 @@ public class Locadora {
                         listarFilmes();
                         break;
                     case 3:
-                        System.exit(0);
+                        filme.salvarTxt();
                         break;
-                    default:
-                        System.out.println("Opção inválida!");
+
+                    case 4:
+                        filme.salvarXml();
+                        break;
+                        
+                    
+                    case 5:
+                        break;
+
                 }
             } catch (IOException ex) {
                 Logger.getLogger(Locadora.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
+
     private void cadastrar() throws IOException {
         String nome = Teclado.leStringTerminal("Nome do filme: ");
         String tipo = Teclado.leStringTerminal("Tipo do filme(DVD/Bluray): ");
@@ -49,8 +58,9 @@ public class Locadora {
         boolean lancamento = Teclado.leBooleanTerminal("É lançamento?(SIM/NÃO) ");
         boolean locado = false;
         filme = new Filme(nome, genero, duracao, tipo, lancamento, locado);
-        filme.salvar();
+        filme.salvarTxt();
     }
+
     private void listarFilmes() throws FileNotFoundException, IOException {
         System.out.println("+----------------------------------------+");
         System.out.println("|           LISTAGEM DE FILMES           |");

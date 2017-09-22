@@ -15,6 +15,9 @@ public class LocadoraAlpha {
     /**
      * @param args the command line arguments
      */
+    
+    /*Método para Executar a Classe Locadora*/
+    
     public static void main(String[] args) {
         Locadora l = new Locadora();
         l.menu();
